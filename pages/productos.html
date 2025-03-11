@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos</title>
+    <link rel="stylesheet" href="../css/productos.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Productos</h1>
+        <form id="productoForm">
+            <label for="nombre">Nombre del producto:</label>
+            <input type="text" id="nombre" required>
+
+            <label for="tipo">Tipo (Ej. Helado, Granizada):</label>
+            <input type="text" id="tipo" required>
+
+            <label for="precio">Precio base:</label>
+            <input type="number" id="precio" step="0.01" required>
+
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" required>
+
+            <button type="submit">Registrar Producto</button>
+        </form>
+
+        <h2>Productos Registrados</h2>
+        <table id="productosTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="../js/productos.js"></script>
+</body>
+</html>

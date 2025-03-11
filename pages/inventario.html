@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Inventarios</title>
+  <link rel="stylesheet" href="../css/inventario.css"> 
+</head>
+<body>
+  <div class="container">
+    <h1>Gestión de Inventarios</h1>
+    <h2>Inventario Actual</h2>
+    <table id="tablaInventario">
+      <thead>
+        <tr>
+          <th>ID Producto</th>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Fecha de Reposición</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <h2>Registrar Reposición de Inventario</h2>
+    <form id="formInventario">
+      <label for="id_producto">Producto:</label>
+      <select id="id_producto" required></select><br><br>
+
+      <label for="cantidad">Cantidad:</label>
+      <input type="number" id="cantidad" required><br><br>
+
+      <label for="fecha_reposicion">Fecha de Reposición:</label>
+      <input type="date" id="fecha_reposicion" required><br><br>
+
+      <button type="submit">Registrar</button>
+    </form>
+  </div>
+
+  <script src="../js/inventario.js"></script>
+</body>
+</html>
