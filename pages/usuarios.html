@@ -16,6 +16,7 @@
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Rol</th>
+                <th>Nivel de Acceso</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -31,13 +32,23 @@
             <h2>Actualizar Usuario</h2>
             <form id="formActualizarUsuario">
                 <input type="hidden" id="usuarioId">
+                
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" required>
+                
                 <label for="rol">Rol:</label>
                 <select id="rol" required>
                     <option value="admin">Admin</option>
                     <option value="vendedor">Vendedor</option>
                 </select>
+
+                <label for="nivel_acceso">Nivel de Acceso:</label>
+                <select id="nivel_acceso" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+
                 <button type="submit">Actualizar</button>
             </form>
         </div>
