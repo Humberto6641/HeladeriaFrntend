@@ -6,22 +6,29 @@ const totalElement = document.getElementById("total");
 let productosSeleccionados = [];
 let total = 0;
 
-// Obtener los productos disponible
+function obtenerToken() {
+  return localStorage.getItem('token');  // Asegúrate de que el token esté guardado en el localStorage
+}
+
+// Obtener los productos disponibles
 async function obtenerProductos() {
   try {
-    const response = await fetch("http://localhost:3000/api/productos");
+    const response = await fetch("http://localhost:3000/api/productos", {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${obtenerToken()}`  // Agregar el token en la cabecera
+      }
+    });
 
     if (!response.ok) {
-      throw new Error('error al obtener productos: ' + response.statusText);
+      throw new Error('Error al obtener productos: ' + response.statusText);
     }
 
     const productos = await response.json();
+    console.log(productos);
 
-    console.log(productos); 
-
-    
     if (!productos || productos.length === 0) {
-      console.log("no hay productos disponibles");
+      console.log("No hay productos disponibles");
       return;
     }
 
@@ -33,7 +40,7 @@ async function obtenerProductos() {
       selectElement.appendChild(option);
     });
   } catch (error) {
-    console.error('rrror al obtener productos:', error);
+    console.error('Error al obtener productos:', error);
   }
 }
 
@@ -51,7 +58,6 @@ function actualizarTabla() {
       <td><button class="eliminar" data-index="${index}">Eliminar</button></td>
     `;
   });
-
 
   total = productosSeleccionados.reduce((sum, producto) => sum + producto.subtotal, 0);
   totalElement.textContent = total.toFixed(2);
@@ -75,12 +81,17 @@ ventaForm.addEventListener("submit", async (e) => {
     alert("Seleccione un producto y una cantidad válida.");
     return;
   }
-  const response = await fetch(`http://localhost:3000/api/productos/${productoId}`);
-  
+
+  const response = await fetch(`http://localhost:3000/api/productos/${productoId}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${obtenerToken()}`  // Agregar el token en la cabecera
+    }
+  });
+
   const producto = await response.json();
   const subtotal = producto.precio * cantidad;
 
- 
   productosSeleccionados.push({
     id: productoId,
     nombre: producto.nombre,
@@ -90,13 +101,15 @@ ventaForm.addEventListener("submit", async (e) => {
 
   actualizarTabla();
 });
+
 confirmarVentaBtn.addEventListener("click", async () => {
   if (productosSeleccionados.length === 0) {
     alert("No hay productos seleccionados.");
     return;
   }
-///// agregar autentificacion 
-  const id_usuario = 1; 
+
+  // Agregar autenticación con el token
+  const id_usuario = 1;  // Este es un ejemplo, se debe obtener el id del usuario autenticado
   const productos = productosSeleccionados.map(p => ({
     id_producto: p.id,
     cantidad: p.cantidad
@@ -105,7 +118,8 @@ confirmarVentaBtn.addEventListener("click", async () => {
   const response = await fetch("http://localhost:3000/api/ventas", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${obtenerToken()}`  // Agregar el token en la cabecera
     },
     body: JSON.stringify({ id_usuario, productos })
   });
@@ -121,3 +135,4 @@ confirmarVentaBtn.addEventListener("click", async () => {
 });
 
 document.addEventListener("DOMContentLoaded", obtenerProductos);
+

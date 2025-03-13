@@ -1,10 +1,21 @@
-const tablaInventario = document.getElementById("tablaInventario").getElementsByTagName('tbody')[0];
+const tablaInventario = document.getElementById("tablaInventario").getElementsByTagName('tbody')[0]; 
 const formInventario = document.getElementById("formInventario");
 const idProductoSelect = document.getElementById("id_producto");
 
+// Función para obtener el token desde el localStorage
+function obtenerToken() {
+  return localStorage.getItem('token');  // Asegúrate de que el token esté guardado en el localStorage
+}
+
+// Función para cargar los productos
 async function cargarProductos() {
   try {
-    const response = await fetch(`http://localhost:3000/api/productos`);
+    const response = await fetch(`http://localhost:3000/api/productos`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${obtenerToken()}`  // Aquí agregamos el token
+      }
+    });
     const productos = await response.json();
     
     if (response.ok) {
@@ -22,10 +33,15 @@ async function cargarProductos() {
   }
 }
 
-////////////// Cargar inventario
+// Función para cargar el inventario
 async function cargarInventario() {
   try {
-    const response = await fetch(`http://localhost:3000/api/inventarios`);
+    const response = await fetch(`http://localhost:3000/api/inventarios`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${obtenerToken()}`  // Aquí también agregamos el token
+      }
+    });
     const inventarios = await response.json();
     
     if (response.ok) {
@@ -47,7 +63,7 @@ async function cargarInventario() {
   }
 }
 
-// ingresar inventario
+// Función para registrar reposición de inventario
 async function registrarReposicion(event) {
   event.preventDefault();
   
@@ -59,7 +75,8 @@ async function registrarReposicion(event) {
     const response = await fetch(`http://localhost:3000/api/inventarios`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${obtenerToken()}`  // Agregamos el token aquí también
       },
       body: JSON.stringify({ id_producto, cantidad, fecha_reposicion })
     });
@@ -77,7 +94,10 @@ async function registrarReposicion(event) {
   }
 }
 
+async function init() {
+  await cargarProductos();  
+  await cargarInventario();  
+}
 
-async function init() {await cargarProductos();  await cargarInventario();  }
 formInventario.addEventListener("submit", registrarReposicion);
 init();
