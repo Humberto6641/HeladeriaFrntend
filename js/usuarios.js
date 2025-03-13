@@ -1,33 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Cargar los usuarios al cargar la página
+    
     cargarUsuarios();
 
-    // Manejo del formulario de actualización
+    
     const formActualizarUsuario = document.getElementById('formActualizarUsuario');
     formActualizarUsuario.addEventListener('submit', actualizarUsuario);
 
-    // Cerrar el modal de actualización
+    
     const modal = document.getElementById('modalActualizar');
     const cerrarModal = document.getElementById('cerrarModal');
     cerrarModal.addEventListener('click', () => modal.style.display = 'none');
 });
 
 function obtenerToken() {
-    return localStorage.getItem('token'); // Ajusta esta parte según cómo almacenes el token
+    return localStorage.getItem('token'); 
 }
 
-// Función para cargar los usuarios desde la API
+// Funcin para cargar los usuarios desde la API
 async function cargarUsuarios() {
     const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios`, {
         method: 'GET',
         headers: {
-            "Authorization": `Bearer ${obtenerToken()}` // Agregar el token al encabezado
+            "Authorization": `Bearer ${obtenerToken()}` 
         }
     });
 
     const usuarios = await response.json();
     const tablaUsuarios = document.getElementById('tablaUsuarios').getElementsByTagName('tbody')[0];
-    tablaUsuarios.innerHTML = ''; // Limpiar la tabla antes de llenarla
+    tablaUsuarios.innerHTML = ''; 
 
     usuarios.forEach(usuario => {
         const row = tablaUsuarios.insertRow();
@@ -49,7 +49,7 @@ async function cargarUsuarios() {
     });
 }
 
-// Función para mostrar el modal de actualización con los datos del usuario
+// Funcion para mostrar el modal de actualización con los datos del usuario
 function mostrarModalActualizar(usuario) {
     document.getElementById('usuarioId').value = usuario.id;
     document.getElementById('nombre').value = usuario.nombre;
@@ -58,7 +58,7 @@ function mostrarModalActualizar(usuario) {
     modal.style.display = 'block';
 }
 
-// Función para actualizar el usuario
+// Funcion para actualizar el usuario
 async function actualizarUsuario(e) {
     e.preventDefault();
 
@@ -90,7 +90,7 @@ async function actualizarUsuario(e) {
     }
 }
 
-// Función para eliminar un usuario
+// Funcio para eliminar un usuario
 async function eliminarUsuario(id) {
     const confirmacion = confirm("¿Estás seguro de eliminar este usuario?");
     if (!confirmacion) return;
@@ -98,7 +98,7 @@ async function eliminarUsuario(id) {
     const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios/${id}`, {
         method: 'DELETE',
         headers: {
-            "Authorization": `Bearer ${obtenerToken()}` // Agregar el token al encabezado
+            "Authorization": `Bearer ${obtenerToken()}` 
         }
     });
 

@@ -4,7 +4,7 @@ const idProductoSelect = document.getElementById("id_producto");
 
 // Función para obtener el token desde el localStorage
 function obtenerToken() {
-  return localStorage.getItem('token');  // Asegúrate de que el token esté guardado en el localStorage
+  return localStorage.getItem('token');  
 }
 
 // Función para cargar los productos
@@ -13,7 +13,7 @@ async function cargarProductos() {
     const response = await fetch(`https://heladeriabackend.onrender.com/api/productos`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${obtenerToken()}`  // Aquí agregamos el token
+        "Authorization": `Bearer ${obtenerToken()}`  
       }
     });
     const productos = await response.json();
@@ -39,7 +39,7 @@ async function cargarInventario() {
     const response = await fetch(`https://heladeriabackend.onrender.com/api/inventarios`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${obtenerToken()}`  // Aquí también agregamos el token
+        "Authorization": `Bearer ${obtenerToken()}`  
       }
     });
     const inventarios = await response.json();
@@ -76,7 +76,7 @@ async function registrarReposicion(event) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${obtenerToken()}`  // Agregamos el token aquí también
+        "Authorization": `Bearer ${obtenerToken()}`  
       },
       body: JSON.stringify({ id_producto, cantidad, fecha_reposicion })
     });

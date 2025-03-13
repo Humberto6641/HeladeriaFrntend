@@ -2,7 +2,7 @@ const tablaReportes = document.getElementById("reportes").getElementsByTagName('
 const ventasChartCanvas = document.getElementById("ventasChart");
 
 function obtenerToken() {
-  return localStorage.getItem('token');  // Asegúrate de que el token esté guardado en el localStorage
+  return localStorage.getItem('token');  
 }
 
 
@@ -20,17 +20,17 @@ async function obtenerReportes() {
     }
 
     const reportes = await response.json();
-    console.log(reportes); // Para verificar qué devuelve el backend en consola
+    console.log(reportes); 
 
     if (!reportes || reportes.length === 0) {
       console.log("No hay ventas registradas.");
       return;
     }
 
-    // Limpiar la tabla antes de insertar nuevos datos
+    // Limpiar la tabla 
     tablaReportes.innerHTML = "";
 
-    // Insertar datos en la tabla
+   
     reportes.forEach(venta => {
       if (venta.detalle_venta && Array.isArray(venta.detalle_venta)) {
         venta.detalle_venta.forEach(detalle => {

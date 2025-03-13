@@ -1,7 +1,7 @@
 document.getElementById("login-form").addEventListener("submit", async (event) => {
-  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+  event.preventDefault(); 
 
-  // Obtener los valores del formulario
+  
   const nombre = document.getElementById("nombre").value.trim();
   const password = document.getElementById("password").value.trim();
 
@@ -22,11 +22,11 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
       const data = await response.json();
 
       if (response.ok) {
-          // Si el login es exitoso, almacenar el token JWT y redirigir
+          
           localStorage.setItem("token", data.token);
 
           alert('Inicio de sesión exitoso');
-          window.location.href = "dashboard.html"; // Redirige a la página de inicio
+          window.location.href = "dashboard.html"; 
       } else {
           alert(data.error || 'Error al iniciar sesión');
       }

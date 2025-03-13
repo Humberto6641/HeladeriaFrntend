@@ -130,7 +130,7 @@ form button:hover {
     background-color: #45a049;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     #tablaUsuarios {
         width: 95%;

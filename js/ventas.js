@@ -16,8 +16,8 @@ function obtenerIdUsuarioDesdeToken() {
   if (!token) return null;
 
   try {
-    const payload = JSON.parse(atob(token.split('.')[1])); // Decodificar payload del JWT
-    return payload.id; // Asegúrate de que en el backend el token incluye el campo `id`
+    const payload = JSON.parse(atob(token.split('.')[1])); 
+    return payload.id; 
   } catch (error) {
     console.error("Error al extraer id del token:", error);
     return null;
@@ -110,7 +110,7 @@ productosSeleccionadosTable.addEventListener("click", async (e) => {
   }
 });
 
-// Agregar producto al carrito
+
 ventaForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -145,14 +145,14 @@ ventaForm.addEventListener("submit", async (e) => {
   await registrarAuditoria("Agregar producto", `Se agregó ${producto.nombre} (${cantidad}) al carrito.`);
 });
 
-// Confirmar venta
+
 confirmarVentaBtn.addEventListener("click", async () => {
   if (productosSeleccionados.length === 0) {
     alert("No hay productos seleccionados.");
     return;
   }
 
-  const id_usuario = obtenerIdUsuarioDesdeToken(); // Obtener id del usuario del token
+  const id_usuario = obtenerIdUsuarioDesdeToken(); 
   if (!id_usuario) {
     alert("No se pudo obtener la información del usuario.");
     return;

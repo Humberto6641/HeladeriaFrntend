@@ -1,10 +1,9 @@
 const productoForm = document.getElementById("productoForm");
 const productosTable = document.getElementById("productosTable").getElementsByTagName('tbody')[0];
-let productoIdEditado = null;  // Variable para almacenar el ID del producto que se está editando
+let productoIdEditado = null;  
 
-// Función para obtener el token desde el localStorage
 function obtenerToken() {
-    return localStorage.getItem('token');  // Asegúrate de que el token esté guardado en el localStorage
+    return localStorage.getItem('token');  
 }
 
 // Función para registrar o actualizar un producto
@@ -20,22 +19,22 @@ async function registrarProducto(event) {
     try {
         let response;
         if (productoIdEditado) {
-            // Si estamos editando un producto, hacemos un PUT para actualizar
+        
             response = await fetch(`https://heladeriabackend.onrender.com/api/productos/${productoIdEditado}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${obtenerToken()}`  // Aquí agregamos el token en el encabezado
+                    "Authorization": `Bearer ${obtenerToken()}`  
                 },
                 body: JSON.stringify(producto),
             });
         } else {
-            // Si no estamos editando, hacemos un POST para agregar
+      
             response = await fetch("https://heladeriabackend.onrender.com/api/productos", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${obtenerToken()}`  // Aquí agregamos el token en el encabezado
+                    "Authorization": `Bearer ${obtenerToken()}`  
                 },
                 body: JSON.stringify(producto),
             });
@@ -44,9 +43,9 @@ async function registrarProducto(event) {
         const data = await response.json();
         if (response.ok) {
             alert("Producto registrado exitosamente");
-            productoIdEditado = null;  // Resetear el ID del producto editado
-            cargarProductos();  // Recargar la lista de productos
-            resetFormulario();  // Resetear formulario
+            productoIdEditado = null;  
+            cargarProductos();  
+            resetFormulario();  
         } else {
             alert(`Error: ${data.error}`);
         }
@@ -55,13 +54,13 @@ async function registrarProducto(event) {
     }
 }
 
-// Muestra los productos en existencia
+
 async function cargarProductos() {
     try {
         const response = await fetch("https://heladeriabackend.onrender.com/api/productos", {
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${obtenerToken()}`  // Agregamos el token aquí también
+                "Authorization": `Bearer ${obtenerToken()}`  
             }
         });
         const data = await response.json();
@@ -100,24 +99,24 @@ async function editarProducto(id) {
         const response = await fetch(`https://heladeriabackend.onrender.com/api/productos/${id}`, {
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${obtenerToken()}`  // Agregamos el token aquí también
+                "Authorization": `Bearer ${obtenerToken()}` 
             }
         });
 
-        // Verifica si la respuesta fue exitosa
+        
         const data = await response.json();
         if (response.ok) {
-            console.log("Datos del producto:", data);  // Verificación de los datos recibidos
+            console.log("Datos del producto:", data);  
 
-            // Llenamos el formulario con los datos del producto
+            
             document.getElementById("nombre").value = data.nombre;
             document.getElementById("tipo").value = data.tipo;
             document.getElementById("precio").value = data.precio;
             document.getElementById("stock").value = data.stock;
 
-            // Cambiar el texto del botón para "Guardar cambios"
+           
             document.getElementById("productoForm").querySelector("button").textContent = "Guardar cambios";
-            productoIdEditado = id;  // Guardamos el ID del producto que estamos editando
+            productoIdEditado = id;  
         } else {
             alert(`Error al cargar el producto: ${data.error}`);
         }
@@ -133,14 +132,14 @@ async function eliminarProducto(id) {
             const response = await fetch(`https://heladeriabackend.onrender.com/api/productos/${id}`, {
                 method: "DELETE",
                 headers: {
-                    "Authorization": `Bearer ${obtenerToken()}`  // Agregamos el token aquí también
+                    "Authorization": `Bearer ${obtenerToken()}`  
                 }
             });
 
             const data = await response.json();
             if (response.ok) {
                 alert("Producto eliminado exitosamente");
-                cargarProductos();  // Vuelve a cargar los productos después de eliminar
+                cargarProductos();  
             } else {
                 alert(`Error al eliminar el producto: ${data.error || 'Error desconocido'}`);
             }
