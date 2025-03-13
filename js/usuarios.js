@@ -70,10 +70,12 @@ async function actualizarUsuario(e) {
     const password = document.getElementById('password').value;  // Obtén el valor de la contraseña
 
     // Validación en frontend para asegurarse que los campos no estén vacíos
-    if (!nombre || !rol || !nivel_acceso) {
+    if (!nombre || !rol || !nivel_acceso || (password && password.trim() === "")) {
         alert("Todos los campos son obligatorios.");
         return;
     }
+
+    console.log({ nombre, rol, nivel_acceso, password });  // Verificar qué datos estás enviando
 
     const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios/${id}`, {
         method: 'PUT',
@@ -81,7 +83,7 @@ async function actualizarUsuario(e) {
             'Content-Type': 'application/json',
             "Authorization": `Bearer ${obtenerToken()}` // Agregar el token al encabezado
         },
-        body: JSON.stringify({ nombre, rol, nivel_acceso, password }),  // Incluir el password si se proporciona
+        body: JSON.stringify({ nombre, rol, nivel_acceso, password: password || undefined }),  // Incluir el password si se proporciona
     });
 
     const result = await response.json();
