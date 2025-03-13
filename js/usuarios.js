@@ -54,7 +54,6 @@ function mostrarModalActualizar(usuario) {
     document.getElementById('usuarioId').value = usuario.id;
     document.getElementById('nombre').value = usuario.nombre;
     document.getElementById('rol').value = usuario.rol;
-    document.getElementById('nivel_acceso').value = usuario.nivel_acceso;
     const modal = document.getElementById('modalActualizar');
     modal.style.display = 'block';
 }
