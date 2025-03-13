@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
-
 function obtenerToken() {
     return localStorage.getItem('token'); // Ajusta esta parte según cómo almacenes el token
 }
