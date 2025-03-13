@@ -66,7 +66,7 @@ async function actualizarUsuario(e) {
     const id = document.getElementById('usuarioId').value;
     const nombre = document.getElementById('nombre').value;
     const rol = document.getElementById('rol').value;
-    const nivel_acceso = document.getElementById('nivel_acceso').value;
+    const nivel_acceso = parseInt(document.getElementById('nivel_acceso').value);
 
     // Validación en frontend para asegurarse que los campos no estén vacíos
     if (!nombre || !rol || !nivel_acceso) {
