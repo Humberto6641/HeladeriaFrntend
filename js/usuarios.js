@@ -64,17 +64,12 @@ async function actualizarUsuario(e) {
 
     const id = document.getElementById('usuarioId').value;
     const rol = document.getElementById('rol').value;
-    const password = document.getElementById('password').value;
 
     if (!rol) {
         alert("El rol es obligatorio.");
         return;
     }
-
     const data = { rol };
-    if (password && password.trim() !== "") {
-        data.password = password;
-    }
 
     const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios/${id}`, {
         method: 'PATCH',
