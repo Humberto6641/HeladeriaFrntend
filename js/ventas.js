@@ -108,8 +108,7 @@ confirmarVentaBtn.addEventListener("click", async () => {
     return;
   }
 
-  // Agregar autenticación con el token
-  const id_usuario = 1;  // Este es un ejemplo, se debe obtener el id del usuario autenticado
+  
   const productos = productosSeleccionados.map(p => ({
     id_producto: p.id,
     cantidad: p.cantidad
@@ -121,7 +120,7 @@ confirmarVentaBtn.addEventListener("click", async () => {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${obtenerToken()}`  // Agregar el token en la cabecera
     },
-    body: JSON.stringify({ id_usuario, productos })
+    body: JSON.stringify({ productos })
   });
 
   const data = await response.json();
