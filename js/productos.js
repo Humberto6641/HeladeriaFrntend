@@ -21,7 +21,7 @@ async function registrarProducto(event) {
         let response;
         if (productoIdEditado) {
             // Si estamos editando un producto, hacemos un PUT para actualizar
-            response = await fetch(`http://localhost:3000/api/productos/${productoIdEditado}`, {
+            response = await fetch(`https://heladeriabackend.onrender.com/api/productos/${productoIdEditado}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -31,7 +31,7 @@ async function registrarProducto(event) {
             });
         } else {
             // Si no estamos editando, hacemos un POST para agregar
-            response = await fetch("http://localhost:3000/api/productos", {
+            response = await fetch("https://heladeriabackend.onrender.com/api/productos", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,7 +58,7 @@ async function registrarProducto(event) {
 // Muestra los productos en existencia
 async function cargarProductos() {
     try {
-        const response = await fetch("http://localhost:3000/api/productos", {
+        const response = await fetch("https://heladeriabackend.onrender.com/api/productos", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${obtenerToken()}`  // Agregamos el token aquí también
@@ -97,7 +97,7 @@ async function cargarProductos() {
 // Función para editar un producto
 async function editarProducto(id) {
     try {
-        const response = await fetch(`http://localhost:3000/api/productos/${id}`, {
+        const response = await fetch(`https://heladeriabackend.onrender.com/api/productos/${id}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${obtenerToken()}`  // Agregamos el token aquí también
@@ -130,7 +130,7 @@ async function editarProducto(id) {
 async function eliminarProducto(id) {
     if (confirm("¿Estás seguro de que quieres eliminar este producto?")) {
         try {
-            const response = await fetch(`http://localhost:3000/api/productos/${id}`, {
+            const response = await fetch(`https://heladeriabackend.onrender.com/api/productos/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${obtenerToken()}`  // Agregamos el token aquí también

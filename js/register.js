@@ -7,7 +7,7 @@ form.addEventListener("submit", async (e) => {
   const password = document.querySelector("#password").value;
 
   try {
-    const response = await fetch("http://localhost:3000/api/register", {
+    const response = await fetch("https://heladeriabackend.onrender.com/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

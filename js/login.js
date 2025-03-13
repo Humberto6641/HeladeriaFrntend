@@ -7,7 +7,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
   
     // Enviar la solicitud de login al backend
     try {
-      const response = await fetch('http://localhost:3000/api/login', {
+      const response = await fetch('https://heladeriabackend.onrender.com/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

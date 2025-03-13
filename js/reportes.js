@@ -8,7 +8,7 @@ function obtenerToken() {
 
 async function obtenerReportes() { 
   try {
-    const response = await fetch("http://localhost:3000/api/reportes/detalle", {
+    const response = await fetch("https://heladeriabackend.onrender.com/api/reportes/detalle", {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${obtenerToken()}`

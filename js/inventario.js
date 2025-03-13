@@ -10,7 +10,7 @@ function obtenerToken() {
 // Función para cargar los productos
 async function cargarProductos() {
   try {
-    const response = await fetch(`http://localhost:3000/api/productos`, {
+    const response = await fetch(`https://heladeriabackend.onrender.com/api/productos`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${obtenerToken()}`  // Aquí agregamos el token
@@ -36,7 +36,7 @@ async function cargarProductos() {
 // Función para cargar el inventario
 async function cargarInventario() {
   try {
-    const response = await fetch(`http://localhost:3000/api/inventarios`, {
+    const response = await fetch(`https://heladeriabackend.onrender.com/api/inventarios`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${obtenerToken()}`  // Aquí también agregamos el token
@@ -72,7 +72,7 @@ async function registrarReposicion(event) {
   const fecha_reposicion = document.getElementById("fecha_reposicion").value;
 
   try {
-    const response = await fetch(`http://localhost:3000/api/inventarios`, {
+    const response = await fetch(`https://heladeriabackend.onrender.com/api/inventarios`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

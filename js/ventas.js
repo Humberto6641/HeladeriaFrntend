@@ -13,7 +13,7 @@ function obtenerToken() {
 // Obtener los productos disponibles
 async function obtenerProductos() {
   try {
-    const response = await fetch("http://localhost:3000/api/productos", {
+    const response = await fetch("https://heladeriabackend.onrender.com/api/productos", {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${obtenerToken()}`  // Agregar el token en la cabecera
@@ -82,7 +82,7 @@ ventaForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  const response = await fetch(`http://localhost:3000/api/productos/${productoId}`, {
+  const response = await fetch(`https://heladeriabackend.onrender.com/api/productos/${productoId}`, {
     method: "GET",
     headers: {
       "Authorization": `Bearer ${obtenerToken()}`  // Agregar el token en la cabecera
@@ -115,7 +115,7 @@ confirmarVentaBtn.addEventListener("click", async () => {
     cantidad: p.cantidad
   }));
 
-  const response = await fetch("http://localhost:3000/api/ventas", {
+  const response = await fetch("https://heladeriabackend.onrender.com/api/ventas", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
