@@ -67,6 +67,7 @@ async function actualizarUsuario(e) {
     const nombre = document.getElementById('nombre').value;
     const rol = document.getElementById('rol').value;
     const nivel_acceso = parseInt(document.getElementById('nivel_acceso').value);
+    const password = document.getElementById('password').value; // Obtener el valor de la contraseña
 
     // Validación en frontend para asegurarse que los campos no estén vacíos
     if (!nombre || !rol || !nivel_acceso) {
@@ -74,22 +75,29 @@ async function actualizarUsuario(e) {
         return;
     }
 
+    // Si el campo de la contraseña no está vacío, incluirla en la solicitud
+    const dataToUpdate = { nombre, rol, nivel_acceso };
+    if (password) {
+        dataToUpdate.password = password; // Solo incluir la contraseña si se ha ingresado una nueva
+    }
+
+    // Enviar los datos al backend para actualizar el usuario
     const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             "Authorization": `Bearer ${obtenerToken()}` // Agregar el token al encabezado
         },
-        body: JSON.stringify({ nombre, rol, nivel_acceso }),
+        body: JSON.stringify(dataToUpdate), // Enviar el objeto con los datos actualizados
     });
 
     const result = await response.json();
     if (response.ok) {
         alert('Usuario actualizado correctamente');
-        cargarUsuarios();
-        document.getElementById('modalActualizar').style.display = 'none';
+        cargarUsuarios(); // Recargar la lista de usuarios después de la actualización
+        document.getElementById('modalActualizar').style.display = 'none'; // Cerrar el modal
     } else {
-        alert(`Error: ${result.error}`);
+        alert(`Error: ${result.error}`); // Mostrar el error si hubo algún problema
     }
 }
 
