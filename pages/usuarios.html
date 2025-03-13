@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Gestión de Usuarios</h1>
+    
+    <!-- Tabla para mostrar los usuarios -->
+    <table id="tablaUsuarios">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los usuarios serán inyectados aquí mediante JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- Modal para actualizar usuario -->
+    <div id="modalActualizar" class="modal">
+        <div class="modal-content">
+            <span id="cerrarModal" class="close">&times;</span>
+            <h2>Actualizar Usuario</h2>
+            <form id="formActualizarUsuario">
+                <input type="hidden" id="usuarioId">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required>
+                <label for="rol">Rol:</label>
+                <select id="rol" required>
+                    <option value="admin">Admin</option>
+                    <option value="vendedor">Vendedor</option>
+                </select>
+                <button type="submit">Actualizar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="usuarios.js"></script>
+</body>
+</html>
