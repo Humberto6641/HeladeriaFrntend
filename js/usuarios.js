@@ -70,20 +70,27 @@ async function actualizarUsuario(e) {
     const password = document.getElementById('password').value;  // Obtén el valor de la contraseña
 
     // Validación en frontend para asegurarse que los campos no estén vacíos
-    if (!nombre || !rol || !nivel_acceso || (password && password.trim() === "")) {
-        alert("Todos los campos son obligatorios.");
+    if (!rol || !nivel_acceso || (password && password.trim() === "")) {
+        alert("El rol, nivel de acceso y contraseña (si se cambia) son obligatorios.");
         return;
     }
 
-    console.log({ nombre, rol, nivel_acceso, password });  // Verificar qué datos estás enviando
+    // Crear un objeto con solo los campos que se actualizarán
+    const datosActualizar = {};
+    if (nombre) datosActualizar.nombre = nombre;
+    if (rol) datosActualizar.rol = rol;
+    if (nivel_acceso) datosActualizar.nivel_acceso = nivel_acceso;
+    if (password) datosActualizar.password = password;
+
+    console.log(datosActualizar);  // Verificar qué datos estás enviando
 
     const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios/${id}`, {
-        method: 'PUT',
+        method: 'PATCH',  // Usar PATCH en lugar de PUT
         headers: {
             'Content-Type': 'application/json',
             "Authorization": `Bearer ${obtenerToken()}` // Agregar el token al encabezado
         },
-        body: JSON.stringify({ nombre, rol, nivel_acceso, password: password || undefined }),  // Incluir el password si se proporciona
+        body: JSON.stringify(datosActualizar),  // Enviar solo los campos modificados
     });
 
     const result = await response.json();
