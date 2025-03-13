@@ -20,7 +20,7 @@ function obtenerToken() {
 }
 // Función para cargar los usuarios desde la API
 async function cargarUsuarios() {
-    const response = await fetch(`${API_URL}/usuarios`, {
+    const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios`, {
         method: 'GET',
         headers: {
             "Authorization": `Bearer ${obtenerToken()}` // Agregar el token al encabezado
@@ -68,7 +68,7 @@ async function actualizarUsuario(e) {
     const nombre = document.getElementById('nombre').value;
     const rol = document.getElementById('rol').value;
 
-    const response = await fetch(`${API_URL}/usuarios/${id}`, {
+    const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ async function eliminarUsuario(id) {
     const confirmacion = confirm("¿Estás seguro de eliminar este usuario?");
     if (!confirmacion) return;
 
-    const response = await fetch(`${API_URL}/usuarios/${id}`, {
+    const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios/${id}`, {
         method: 'DELETE',
         headers: {
             "Authorization": `Bearer ${obtenerToken()}` // Agregar el token al encabezado
