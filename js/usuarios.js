@@ -1,5 +1,3 @@
-
-
 document.addEventListener("DOMContentLoaded", () => {
     // Cargar los usuarios al cargar la página
     cargarUsuarios();
@@ -14,10 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
     cerrarModal.addEventListener('click', () => modal.style.display = 'none');
 });
 
-
 function obtenerToken() {
     return localStorage.getItem('token'); // Ajusta esta parte según cómo almacenes el token
 }
+
 // Función para cargar los usuarios desde la API
 async function cargarUsuarios() {
     const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios`, {
@@ -56,6 +54,7 @@ function mostrarModalActualizar(usuario) {
     document.getElementById('usuarioId').value = usuario.id;
     document.getElementById('nombre').value = usuario.nombre;
     document.getElementById('rol').value = usuario.rol;
+    document.getElementById('nivel_acceso').value = usuario.nivel_acceso;
     const modal = document.getElementById('modalActualizar');
     modal.style.display = 'block';
 }
@@ -67,6 +66,13 @@ async function actualizarUsuario(e) {
     const id = document.getElementById('usuarioId').value;
     const nombre = document.getElementById('nombre').value;
     const rol = document.getElementById('rol').value;
+    const nivel_acceso = document.getElementById('nivel_acceso').value;
+
+    // Validación en frontend para asegurarse que los campos no estén vacíos
+    if (!nombre || !rol || !nivel_acceso) {
+        alert("Todos los campos son obligatorios.");
+        return;
+    }
 
     const response = await fetch(`https://heladeriabackend.onrender.com/api/usuarios/${id}`, {
         method: 'PUT',
@@ -74,7 +80,7 @@ async function actualizarUsuario(e) {
             'Content-Type': 'application/json',
             "Authorization": `Bearer ${obtenerToken()}` // Agregar el token al encabezado
         },
-        body: JSON.stringify({ nombre, rol }),
+        body: JSON.stringify({ nombre, rol, nivel_acceso }),
     });
 
     const result = await response.json();
