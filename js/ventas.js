@@ -7,7 +7,41 @@ let productosSeleccionados = [];
 let total = 0;
 
 function obtenerToken() {
-  return localStorage.getItem('token');  // Asegúrate de que el token esté guardado en el localStorage
+  return localStorage.getItem('token');  
+}
+
+// Extraer el id del usuario desde el token
+function obtenerIdUsuarioDesdeToken() {
+  const token = obtenerToken();
+  if (!token) return null;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1])); // Decodificar payload del JWT
+    return payload.id; // Asegúrate de que en el backend el token incluye el campo `id`
+  } catch (error) {
+    console.error("Error al extraer id del token:", error);
+    return null;
+  }
+}
+
+// Función para registrar auditoría
+async function registrarAuditoria(evento, descripcion) {
+  try {
+    const response = await fetch("https://heladeriabackend.onrender.com/api/auditoria", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${obtenerToken()}`  
+      },
+      body: JSON.stringify({ evento, descripcion, fecha: new Date().toISOString() })
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al registrar auditoría: ' + response.statusText);
+    }
+  } catch (error) {
+    console.error('Error en la auditoría:', error);
+  }
 }
 
 // Obtener los productos disponibles
@@ -16,7 +50,7 @@ async function obtenerProductos() {
     const response = await fetch("https://heladeriabackend.onrender.com/api/productos", {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${obtenerToken()}`  // Agregar el token en la cabecera
+        "Authorization": `Bearer ${obtenerToken()}`  
       }
     });
 
@@ -25,7 +59,6 @@ async function obtenerProductos() {
     }
 
     const productos = await response.json();
-    console.log(productos);
 
     if (!productos || productos.length === 0) {
       console.log("No hay productos disponibles");
@@ -63,14 +96,21 @@ function actualizarTabla() {
   totalElement.textContent = total.toFixed(2);
 }
 
-productosSeleccionadosTable.addEventListener("click", (e) => {
+// Eliminar producto del carrito
+productosSeleccionadosTable.addEventListener("click", async (e) => {
   if (e.target.classList.contains("eliminar")) {
     const index = e.target.getAttribute("data-index");
+    const productoEliminado = productosSeleccionados[index];
+    
     productosSeleccionados.splice(index, 1);
     actualizarTabla();
+
+    // Registrar en auditoría
+    await registrarAuditoria("Eliminar producto", `Se eliminó ${productoEliminado.nombre} del carrito.`);
   }
 });
 
+// Agregar producto al carrito
 ventaForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -85,7 +125,7 @@ ventaForm.addEventListener("submit", async (e) => {
   const response = await fetch(`https://heladeriabackend.onrender.com/api/productos/${productoId}`, {
     method: "GET",
     headers: {
-      "Authorization": `Bearer ${obtenerToken()}`  // Agregar el token en la cabecera
+      "Authorization": `Bearer ${obtenerToken()}`  
     }
   });
 
@@ -100,15 +140,24 @@ ventaForm.addEventListener("submit", async (e) => {
   });
 
   actualizarTabla();
+
+  // Registrar en auditoría
+  await registrarAuditoria("Agregar producto", `Se agregó ${producto.nombre} (${cantidad}) al carrito.`);
 });
 
+// Confirmar venta
 confirmarVentaBtn.addEventListener("click", async () => {
   if (productosSeleccionados.length === 0) {
     alert("No hay productos seleccionados.");
     return;
   }
 
-  
+  const id_usuario = obtenerIdUsuarioDesdeToken(); // Obtener id del usuario del token
+  if (!id_usuario) {
+    alert("No se pudo obtener la información del usuario.");
+    return;
+  }
+
   const productos = productosSeleccionados.map(p => ({
     id_producto: p.id,
     cantidad: p.cantidad
@@ -118,9 +167,9 @@ confirmarVentaBtn.addEventListener("click", async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${obtenerToken()}`  // Agregar el token en la cabecera
+      "Authorization": `Bearer ${obtenerToken()}`  
     },
-    body: JSON.stringify({ productos })
+    body: JSON.stringify({ id_usuario, productos })
   });
 
   const data = await response.json();
@@ -128,10 +177,12 @@ confirmarVentaBtn.addEventListener("click", async () => {
     alert("Venta registrada con éxito.");
     productosSeleccionados = [];
     actualizarTabla();
+
+    // Registrar en auditoría
+    await registrarAuditoria("Venta confirmada", `Se registró una venta con ${productos.length} productos.`);
   } else {
     alert("Error al registrar la venta: " + data.error);
   }
 });
 
 document.addEventListener("DOMContentLoaded", obtenerProductos);
-
